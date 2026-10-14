@@ -1,0 +1,60 @@
+@if (!valid) {
+  <p class="text-body-secondary">
+    That date isn't valid. <a routerLink="/history">Back to History</a>
+  </p>
+} @else {
+  <h1 class="h3">{{ label }}</h1>
+  <div class="d-flex justify-content-center align-items-center mb-3 gap-2">
+    <div class="d-flex gap-2">
+      @if (hasEntry) {
+        @if (confirmingDelete()) {
+          <button type="button" class="btn btn-danger text-nowrap" (click)="remove()">
+            Confirm delete
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-secondary text-nowrap"
+            (click)="confirmingDelete.set(false)"
+          >
+            Keep
+          </button>
+        } @else {
+          <button
+            type="button"
+            class="btn btn-outline-danger text-nowrap"
+            (click)="confirmingDelete.set(true)"
+          >
+            Delete
+          </button>
+        }
+      }
+      <a
+        class="btn btn-outline-secondary text-nowrap"
+        routerLink="/history"
+        [queryParams]="{ date: date }"
+        >Cancel</a
+      >
+      <button
+        type="button"
+        class="btn btn-outline-primary text-nowrap"
+        [disabled]="symptoms.length === 0"
+        (click)="save()"
+      >
+        Save
+      </button>
+    </div>
+  </div>
+
+  @if (symptoms.length === 0) {
+    <p class="text-body-secondary">
+      No symptoms selected yet. Choose what to track in
+      <a routerLink="/settings">Settings</a>.
+    </p>
+  } @else {
+    <app-symptom-form
+      [symptoms]="symptoms"
+      [values]="values()"
+      (valuesChange)="values.set($event)"
+    />
+  }
+}

@@ -1,0 +1,38 @@
+<h1 class="h3">Tracking</h1>
+<div class="d-flex justify-content-center align-items-center mb-3">
+  <div class="d-flex gap-2">
+    <button
+      type="button"
+      class="btn btn-outline-secondary text-nowrap"
+      [disabled]="symptoms.length === 0"
+      (click)="reset()"
+    >
+      Reset
+    </button>
+    <button
+      type="button"
+      class="btn btn-outline-primary text-nowrap"
+      [disabled]="symptoms.length === 0"
+      (click)="submitDay()"
+    >
+      Submit day
+    </button>
+  </div>
+</div>
+
+@if (submittedAt(); as date) {
+  <div class="alert alert-success" role="status">Saved your entry for {{ date }}.</div>
+}
+
+@if (symptoms.length === 0) {
+  <p class="text-body-secondary">
+    No symptoms selected yet. Choose what to track in
+    <a routerLink="/settings">Settings</a>.
+  </p>
+} @else {
+  <app-symptom-form
+    [symptoms]="symptoms"
+    [values]="values()"
+    (valuesChange)="onValuesChange($event)"
+  />
+}

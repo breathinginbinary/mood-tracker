@@ -1,0 +1,18 @@
+.app-navbar {
+  --bs-navbar-color: var(--bs-body-bg);
+  --bs-navbar-hover-color: #fff;
+  --bs-navbar-active-color: #fff;
+  --bs-navbar-brand-color: var(--bs-body-bg);
+  --bs-navbar-brand-hover-color: #fff;
+  --bs-navbar-toggler-border-color: var(--bs-body-bg);
+  background-color: var(--app-green);
+}
+
+.navbar-toggler-icon {
+  filter: invert(1) sepia(0.2) brightness(1.1);
+}
+
+.nav-link.active {
+  text-decoration: underline;
+  text-underline-offset: 0.35rem;
+}
