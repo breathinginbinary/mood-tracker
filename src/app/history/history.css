@@ -1,0 +1,56 @@
+.calendar {
+  max-width: 28rem;
+  margin-inline: auto;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.25rem;
+}
+
+.day {
+  position: relative;
+  aspect-ratio: 1;
+  background: #fff;
+  border: 1px solid var(--app-dark-grey);
+  border-radius: 0.375rem;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+}
+
+.day:hover {
+  border-color: var(--app-green);
+}
+
+.day:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 0.25rem var(--bs-focus-ring-color);
+}
+
+.day.today {
+  font-weight: bold;
+  border-color: var(--app-green);
+}
+
+.day.selected {
+  background: var(--app-green);
+  border-color: var(--app-green);
+  color: #fff;
+}
+
+.entry-dot {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--app-green);
+}
+
+/* Keep the dot visible against the green selected background */
+.day.selected .entry-dot {
+  background: #fff;
+}

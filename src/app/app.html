@@ -1,0 +1,60 @@
+<nav class="navbar navbar-expand-md app-navbar">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/">{{ title() }}</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      aria-label="Toggle navigation"
+      [attr.aria-expanded]="menuOpen()"
+      (click)="menuOpen.set(!menuOpen())"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-collapse collapse" [class.show]="menuOpen()">
+      <ul class="navbar-nav ms-auto">
+        @for (link of links; track link.path) {
+          @if (link.children; as children) {
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                routerLinkActive="active"
+                [attr.aria-expanded]="openDropdown() === link.label"
+                (click)="$event.preventDefault(); toggleDropdown(link.label)"
+                >{{ link.label }}</a
+              >
+              <ul class="dropdown-menu" [class.show]="openDropdown() === link.label">
+                @for (child of children; track child.path) {
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      [routerLink]="child.path"
+                      routerLinkActive="active"
+                      (click)="closeMenus()"
+                      >{{ child.label }}</a
+                    >
+                  </li>
+                }
+              </ul>
+            </li>
+          } @else {
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                [routerLink]="link.path"
+                routerLinkActive="active"
+                (click)="closeMenus()"
+                >{{ link.label }}</a
+              >
+            </li>
+          }
+        }
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<main class="container py-4">
+  <router-outlet />
+</main>

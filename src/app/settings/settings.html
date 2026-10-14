@@ -1,0 +1,84 @@
+<h1 class="h3">Settings</h1>
+
+<section class="mb-4">
+  <h2 class="h5">Conditions</h2>
+  @for (c of conditions; track c.id) {
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        [id]="'cond-' + c.id"
+        [checked]="enabled()[c.id]"
+        (change)="setCondition(c.id, $any($event.target).checked)"
+      />
+      <label class="form-check-label" [for]="'cond-' + c.id">{{ c.title }}</label>
+    </div>
+  }
+</section>
+
+<section class="mb-4">
+  <div class="d-flex justify-content-between align-items-center mb-2">
+    <h2 class="h5 mb-0">Symptoms to track</h2>
+    @if (anyEnabled()) {
+      <button
+        type="button"
+        class="btn btn-outline-primary btn-sm text-nowrap"
+        [disabled]="available().length === 0"
+        (click)="addAll()"
+      >
+        Add all
+      </button>
+    }
+  </div>
+  @if (!anyEnabled()) {
+    <p class="text-muted">Select a condition above to see its symptoms.</p>
+  } @else {
+    <label for="symptom-select" class="form-label">Add a symptom</label>
+    <select id="symptom-select" class="form-select" #symptomSelect (change)="add(symptomSelect)">
+      <option value="">Choose a symptom…</option>
+      @for (g of available(); track g.id) {
+        <optgroup [label]="g.title">
+          @for (s of g.symptoms; track s.id) {
+            <option [value]="s.id">{{ s.label }}</option>
+          }
+        </optgroup>
+      }
+    </select>
+  }
+</section>
+
+<section>
+  <div class="d-flex justify-content-between align-items-center mb-2">
+    <h2 class="h5 mb-0">Your selected symptoms</h2>
+    <button
+      type="button"
+      class="btn btn-outline-danger btn-sm text-nowrap"
+      [disabled]="chosen().length === 0"
+      (click)="removeAll()"
+    >
+      Remove all
+    </button>
+  </div>
+  @if (chosen().length === 0) {
+    <p class="text-muted">No symptoms selected yet.</p>
+  } @else {
+    <ul class="list-group">
+      @for (s of chosen(); track s.id) {
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <span>
+            {{ s.label }}
+            <small class="text-muted">({{ conditionTitle(s.condition) }})</small>
+          </span>
+          <button
+            type="button"
+            class="remove-btn"
+            [attr.aria-label]="'Remove ' + s.label"
+            (click)="remove(s.id)"
+          >
+            ✕
+          </button>
+        </li>
+      }
+    </ul>
+  }
+</section>

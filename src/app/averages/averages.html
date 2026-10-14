@@ -1,0 +1,55 @@
+<h1 class="h3">Averages</h1>
+<div class="d-flex flex-wrap justify-content-center align-items-center gap-2 mb-3">
+  <div class="btn-group" role="group" aria-label="Time range">
+    @for (r of ranges; track r.label; let i = $index) {
+      <input
+        type="radio"
+        class="btn-check"
+        name="range"
+        autocomplete="off"
+        [id]="'range-' + i"
+        [checked]="range() === r"
+        (change)="setRange(r)"
+      />
+      <label class="btn btn-outline-primary btn-sm" [for]="'range-' + i">{{ r.label }}</label>
+    }
+  </div>
+</div>
+
+@if (dayCount() === 0) {
+  <p class="text-body-secondary">No entries logged in this time range.</p>
+} @else {
+  <p class="text-body-secondary">
+    Based on {{ dayCount() }} {{ dayCount() === 1 ? 'day' : 'days' }} of entries. Arrows compare the
+    later half of the range with the earlier half.
+  </p>
+  <div class="row g-4">
+    @for (group of groups(); track group.title) {
+      <section class="col-12 col-md-6">
+        <h2 class="h5">{{ group.title }}</h2>
+        <ul class="list-group">
+          @for (r of group.rows; track r.symptom.id) {
+            <li class="list-group-item">
+              <div class="d-flex justify-content-between gap-3">
+                <span>{{ r.symptom.label }}</span>
+                <strong class="text-nowrap">
+                  {{ r.summary }}
+                  @if (r.trend === 'up') {
+                    <span aria-label="trending up">↑</span>
+                  } @else if (r.trend === 'down') {
+                    <span aria-label="trending down">↓</span>
+                  }
+                </strong>
+              </div>
+              @if (r.percent !== null) {
+                <div class="bar mt-2" aria-hidden="true">
+                  <div class="bar-fill" [style.width.%]="r.percent"></div>
+                </div>
+              }
+            </li>
+          }
+        </ul>
+      </section>
+    }
+  </div>
+}

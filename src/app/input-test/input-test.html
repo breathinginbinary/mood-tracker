@@ -1,0 +1,83 @@
+<div class="container py-4" style="max-width: 600px">
+  <h1 class="h3">Input test</h1>
+
+  <div class="mb-4">
+    <label for="slider" class="form-label">Slider (0-5): {{ slider() }}</label>
+    <input
+      type="range"
+      class="form-range"
+      id="slider"
+      min="0"
+      max="5"
+      step="1"
+      [ngModel]="slider()"
+      (ngModelChange)="slider.set($event)"
+    />
+    <div class="d-flex justify-content-between small text-body-secondary">
+      @for (n of scale; track n) {
+        <span>{{ n }}</span>
+      }
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <div class="form-label">Radio buttons (0-5): {{ radio() ?? '-' }}</div>
+    <div class="btn-group" role="group" aria-label="Rating from 0 to 5">
+      @for (n of scale; track n) {
+        <input
+          type="radio"
+          class="btn-check"
+          name="rating"
+          [id]="'rating' + n"
+          autocomplete="off"
+          [value]="n"
+          [ngModel]="radio()"
+          (ngModelChange)="radio.set($event)"
+        />
+        <label class="btn btn-outline-primary" [for]="'rating' + n">{{ n }}</label>
+      }
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        id="checkbox"
+        [ngModel]="checkbox()"
+        (ngModelChange)="checkbox.set($event)"
+      />
+      <label class="form-check-label" for="checkbox">
+        Checkbox: {{ checkbox() ? 'Yes' : 'No' }}
+      </label>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <label for="number" class="form-label">Number input</label>
+    <input
+      type="number"
+      class="form-control"
+      id="number"
+      [ngModel]="numberInput()"
+      (ngModelChange)="numberInput.set($event)"
+    />
+  </div>
+
+  <div class="mb-4">
+    <div class="form-check form-switch">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        role="switch"
+        id="toggle"
+        [ngModel]="toggle()"
+        (ngModelChange)="toggle.set($event)"
+      />
+      <label class="form-check-label" for="toggle">
+        Yes/No switch: {{ toggle() ? 'Yes' : 'No' }}
+      </label>
+    </div>
+  </div>
+</div>
